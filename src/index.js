@@ -1,13 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
+import ReactDOM from 'react-dom'
+import * as serviceWorker from './serviceWorker'
+import 'bootstrap/scss/bootstrap.scss'
+import Task from './views/task'
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Router>
+    <Switch>
+      <Route exact path="/" component={Task} />
+    </Switch>
+  </Router>
+  ,
   document.getElementById('root')
 );
 
