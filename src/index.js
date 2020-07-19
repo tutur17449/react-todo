@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import ReactDOM from 'react-dom'
 import * as serviceWorker from './serviceWorker'
 import 'bootstrap/scss/bootstrap.scss'
-import Task from './views/task'
+import Task from './pages/task'
 
 
 ReactDOM.render(

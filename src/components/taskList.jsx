@@ -1,5 +1,5 @@
 import React from 'react'
-import SingleTask from '../components/singleTask'
+import SingleTask from './singleTask'
 
 export default function PostList(props){
 
@@ -8,11 +8,10 @@ export default function PostList(props){
             <div className="container">
                 <div className="row">
                     {props.data.map( (i, id) => (
+                        console.log(i),
                         <SingleTask
                             key={id}
                             data={i}
-                            updateTask={props.updateTask}
-                            deleteTask={props.deleteTask}
                         />
                     ))}
                 </div>
