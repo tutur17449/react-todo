@@ -1,15 +1,15 @@
-import React, {useState, useEffect, useReducer} from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import TaskList from '../components/taskList'
 import AddTask from '../components/addTask'
 import taskReducer from '../reducers/task.reducer'
-import {getTasks, addTask, updateTask, deleteTask} from '../actions/task.actions'
+import { getTasks, addTask, updateTask, deleteTask } from '../actions/task.actions'
 
-export default function Post(){
+export default function Post() {
 
-    const [state, dispatch] = useReducer(taskReducer, {tasks: [], error: null, isLoading: true})
+    const [state, dispatch] = useReducer(taskReducer, { tasks: [], error: null, isLoading: true })
 
-    useEffect( () => {
-        async function tasksList(){
+    useEffect(() => {
+        async function tasksList() {
             try {
                 const response = await getTasks()
                 dispatch({
@@ -28,6 +28,9 @@ export default function Post(){
     }, [])
 
     const taskCreate = async (task) => {
+        dispatch({
+            type: "LOADING"
+        })
         try {
             const response = await addTask(task)
             dispatch({
@@ -43,6 +46,9 @@ export default function Post(){
     }
 
     const taskDelete = async (task) => {
+        dispatch({
+            type: "LOADING"
+        })
         try {
             const response = await deleteTask(task)
             dispatch({
@@ -58,6 +64,9 @@ export default function Post(){
     }
 
     const taskUpdate = async (oldTask, newTask) => {
+        dispatch({
+            type: "LOADING"
+        })
         try {
             const response = await updateTask(newTask)
             dispatch({
@@ -75,18 +84,24 @@ export default function Post(){
         }
     }
 
-    return(
+    return (
         <React.Fragment>
             <h1 className="w-100 text-center">Tasks List</h1>
             {state.error !== null && <p>{state.error}</p>}
-            <AddTask 
-                taskCreate={taskCreate}
-            />
-            <TaskList 
-                data={state.tasks}
-                taskDelete={taskDelete}
-                taskUpdate={taskUpdate}
-            />
+            {state.isLoading ? (
+                <p className="w-100 text-center">Loading ...</p>
+            ) : (
+                <React.Fragment>
+                    <AddTask
+                        taskCreate={taskCreate}
+                    />
+                    <TaskList
+                        data={state.tasks}
+                        taskDelete={taskDelete}
+                        taskUpdate={taskUpdate}
+                    />
+                </React.Fragment>
+            )}
         </React.Fragment>
     )
 }

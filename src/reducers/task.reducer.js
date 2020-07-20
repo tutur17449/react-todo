@@ -26,6 +26,11 @@ export default function postsReducer(state, action) {
             isLoading: false,
             tasks: tasksData
       }
+      case 'LOADING':
+        return {
+            ...state,
+            isLoading: true
+      }
       case 'ERROR':
         return {
             ...state,
