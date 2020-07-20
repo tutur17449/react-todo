@@ -7,15 +7,14 @@ import {getTasks, addTask, updateTask, deleteTask} from '../actions/task.actions
 export default function Post(){
 
     const [state, dispatch] = useReducer(taskReducer, {tasks: [], error: null, isLoading: true})
-    const [isAdding, setIsAdding] = useState(false)
 
     useEffect( () => {
         async function tasksList(){
             try {
-                const tasks = await getTasks()
+                const response = await getTasks()
                 dispatch({
                     type: "GET_TASKS",
-                    playload: tasks
+                    playload: response
                 })
             } catch (error) {
                 dispatch({
@@ -28,36 +27,65 @@ export default function Post(){
         tasksList()
     }, [])
 
-/*     const addTask = (task) => {
-        setData([...data, task])
-        setIsAdding(false)
+    const taskCreate = async (task) => {
+        try {
+            const response = await addTask(task)
+            dispatch({
+                type: "ADD_TASK",
+                playload: response
+            })
+        } catch (error) {
+            dispatch({
+                type: "ERROR",
+                playload: 'Can\'t create task'
+            })
+        }
     }
 
-    const deleteTask = (task) => {
-        const taskData = [...data]
-        taskData.splice(taskData.indexOf(task, 0), 1)
-        setData(taskData)
+    const taskDelete = async (task) => {
+        try {
+            const response = await deleteTask(task)
+            dispatch({
+                type: "DELETE_TASK",
+                playload: task
+            })
+        } catch (error) {
+            dispatch({
+                type: "ERROR",
+                playload: 'Can\'t delete task'
+            })
+        }
     }
 
-    const updateTask = (task) => {
-        const taskData = [...data]
-        taskData.splice(taskData.indexOf(task, 0), 1, {task: task.task, status: !task.status})
-        setData(taskData)
-    } */
-
-    const toggleIsAdding = () => {
-        setIsAdding(!isAdding)
+    const taskUpdate = async (oldTask, newTask) => {
+        try {
+            const response = await updateTask(newTask)
+            dispatch({
+                type: "UPDATE_TASK",
+                playload: {
+                    oldTask: oldTask,
+                    newTask: response
+                }
+            })
+        } catch (error) {
+            dispatch({
+                type: "ERROR",
+                playload: 'Can\'t update task'
+            })
+        }
     }
 
     return(
         <React.Fragment>
-            <h1 className="w-100 text-center">Task page</h1>
-            <div className="w-100 text-center p-5">
-                <button className="btn btn-info" onClick={toggleIsAdding}>{isAdding ? ("Return") : ("Add task")}</button>
-            </div>
+            <h1 className="w-100 text-center">Tasks List</h1>
             {state.error !== null && <p>{state.error}</p>}
+            <AddTask 
+                taskCreate={taskCreate}
+            />
             <TaskList 
                 data={state.tasks}
+                taskDelete={taskDelete}
+                taskUpdate={taskUpdate}
             />
         </React.Fragment>
     )

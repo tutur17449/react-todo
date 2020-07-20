@@ -6,7 +6,8 @@ export default function AddTask(props){
 
     const onHandleSubmit = (e) => {
         e.preventDefault()
-        props.addTask({task: task, status: false})
+        props.taskCreate({title: task, completed: false})
+        setTask('')
     }
 
     return(
@@ -22,7 +23,7 @@ export default function AddTask(props){
                             onChange={ (e) => setTask(e.target.value)}
                             required
                         />
-                        <button  className="m-1" type="submit">Add</button>  
+                        <button  className="m-1 btn btn-dark" type="submit">Add</button>  
                     </div>
                 </div>
             </div>

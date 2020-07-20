@@ -8,10 +8,11 @@ export default function PostList(props){
             <div className="container">
                 <div className="row">
                     {props.data.map( (i, id) => (
-                        console.log(i),
                         <SingleTask
                             key={id}
                             data={i}
+                            taskDelete={props.taskDelete}
+                            taskUpdate={props.taskUpdate}
                         />
                     ))}
                 </div>
